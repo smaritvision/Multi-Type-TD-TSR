@@ -1,29 +1,25 @@
-import numpy as np
 import cv2
 import argparse
 import os
-import detectron2
 from detectron2.utils.logger import setup_logger
+import argparse
+import os
+
+import cv2
+from detectron2.utils.logger import setup_logger
+
 setup_logger()
 
 # import some common detectron2 utilities
-from detectron2 import model_zoo
 from detectron2.engine import DefaultPredictor
 from detectron2.config import get_cfg
-from detectron2.utils.visualizer import Visualizer
-from detectron2.data import MetadataCatalog
-
-from detectron2.data import DatasetCatalog, MetadataCatalog
-
-import pandas as pd
-
-import json
-import itertools
 
 from TSR import table_structure_recognition_all as tsra
 from TSR import table_structure_recognition_lines as tsrl
 from TSR import table_structure_recognition_lines_wol as tsrlwol
 from TSR import table_structure_recognition_wol as tsrwol
+import google_colab.table_detection as table_detection
+
 #import table_detection as td
 
 from document_xml import output_to_xml
@@ -44,7 +40,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     #create detectron config
-    cfg = get_cfg(args.config)
+    cfg = get_cfg()
 
     #set yaml
     cfg.merge_from_file(args.yaml)
@@ -58,7 +54,7 @@ if __name__ == "__main__":
 
     for file in files:
         img = cv2.imread(args.folder + "/" + file)
-        table_list, table_coords = table_detection.make_prediction(deskewed_image, predictor)
+        table_list, table_coords = table_detection.make_prediction(img, predictor)
         list_table_boxes = []
 
         for table in table_list:
