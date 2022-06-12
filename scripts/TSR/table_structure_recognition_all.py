@@ -4,6 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import csv
 
+from google_colab.plot_show import cv2_imshow
+
 def recognize_structure(img):
 
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)

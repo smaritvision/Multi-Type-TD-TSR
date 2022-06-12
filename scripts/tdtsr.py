@@ -24,7 +24,7 @@ from TSR import table_structure_recognition_all as tsra
 from TSR import table_structure_recognition_lines as tsrl
 from TSR import table_structure_recognition_lines_wol as tsrlwol
 from TSR import table_structure_recognition_wol as tsrwol
-import table_detection as td
+#import table_detection as td
 
 from document_xml import output_to_xml
 
