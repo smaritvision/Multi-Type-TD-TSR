@@ -1,6 +1,7 @@
 import cv2
-from google.colab.patches import cv2_imshow
 import numpy as np
+
+from google_colab.plot_show import cv2_imshow
 
 def plot_prediction(img, predictor):
     
@@ -43,6 +44,6 @@ def make_prediction(img, predictor):
         table_coords.append([int(x1),int(y1),int(x2-x1),int(y2-y1)])
         print("TABLE", i, ":")
         cv2_imshow(img[int(y1):int(y2), int(x1):int(x2)])
-        print()
+
 
     return table_list, table_coords

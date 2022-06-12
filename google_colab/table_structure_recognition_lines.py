@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import csv
 
-from google.colab.patches import cv2_imshow
+from google_colab.plot_show import cv2_imshow
 
 try:
     from PIL import Image
