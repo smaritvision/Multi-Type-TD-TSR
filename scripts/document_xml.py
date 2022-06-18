@@ -1,7 +1,7 @@
 from lxml import etree
 
 
-def output_to_xml(table_coords, list_table_boxes):
+def output_to_xml(table_coords, list_table_boxes, output_path):
     root = etree.Element("page")
 
     for i in range(len(list_table_boxes)):
@@ -14,8 +14,8 @@ def output_to_xml(table_coords, list_table_boxes):
         start_x = table_coords[i][0]
         start_y = table_coords[i][1]
 
-        for j in range(len(list_table_boxes[0])):
-            for k in range(len(list_table_boxes[0][0])):
+        for j in range(len(list_table_boxes[i])):
+            for k in range(len(list_table_boxes[i][j])):
 
                 cell = etree.SubElement(table, "cell")
                 cell.attrib["row"] = str(j)

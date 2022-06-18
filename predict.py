@@ -43,7 +43,7 @@ predictor = DefaultPredictor(cfg)
 
 
 # path to the image scan of the document
-file = "images/rotated_example.jpeg"
+file = "images/rotated/rotated_example.jpeg"
 
 # load the image from disk
 original_image = cv2.imread(file)

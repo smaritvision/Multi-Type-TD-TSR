@@ -1,7 +1,3 @@
-import cv2
-import argparse
-import os
-from detectron2.utils.logger import setup_logger
 import argparse
 import os
 
@@ -20,7 +16,7 @@ from TSR import table_structure_recognition_lines_wol as tsrlwol
 from TSR import table_structure_recognition_wol as tsrwol
 import google_colab.table_detection as table_detection
 
-#import table_detection as td
+
 
 from document_xml import output_to_xml
 
@@ -53,18 +49,29 @@ if __name__ == "__main__":
     files = os.listdir(args.folder)
 
     for file in files:
-        img = cv2.imread(args.folder + "/" + file)
-        table_list, table_coords = table_detection.make_prediction(img, predictor)
-        list_table_boxes = []
+        if not os.path.isfile(args.folder + "/" + file):
+            continue
 
-        for table in table_list:
-            boxes, table_processed = type_dict[args.type].recognize_structure(table)
+        img = cv2.imread(args.folder + "/" + file)
+        try:
+            table_list, table_coords = table_detection.make_prediction(img, predictor)
+        except Exception as E:
+            continue
+
+        list_table_boxes = []
+        for table_idx in range(len(table_list)):
+            table = table_list[table_idx]
+            try:
+                boxes, table_processed = type_dict[args.type].recognize_structure(table)
+            except Exception as E:
+                continue
+
             list_table_boxes.append(boxes)
             
             if args.tsr_img_output:
-                cv2.imwrite(args.tsr_img_output + "/" + file, table_processed)
+                cv2.imwrite(args.tsr_img_output + "/" + str(table_idx) + "_" + file, table_processed)
             if args.td_img_output:
-                cv2.imwrite(args.td_img_output + "/" + file, table)
-            if args.td_xml_output:
-                print(args.xml_output + "/" + file[:-3])
-                output_to_xml(list_table_boxes, args.xml_output + "/" + file[:-3])
+                cv2.imwrite(args.td_img_output + "/" + str(table_idx) + "_" + file, table)
+            if args.xml_output:
+                print(args.xml_output + "/" + str(table_idx) + "_" + file[:-3])
+                output_to_xml(table_coords, list_table_boxes, args.xml_output + "/" + file[:-3])
